@@ -7,11 +7,10 @@
  page in the `/src/routes/+layout.svelte` file.
 
  In its bare state, all the buttons will always show, and there's no actual
- logging in, signing up, etc. taking place. We've also not pre-coded any way to
- _store_ the passkey ID or smart wallet address, once it is known. Perhaps for
- that, you'll use a database, or localStorage, or something else entirely. It's
- up to _you_ to provide the functionality you want to see here, this component
- is merely a canvas for you to paint on.
+ logging in, signing up, etc. taking place. Maybe you want to integrate some
+ browser wallet, a smart wallet, or some other means of authenticating users
+ with a Stellar account. Might I recommend the Stellar Wallets Kit? It's pretty
+ awesome! https://stellarwalletskit.dev
 
  We do provide some toast logic for informing users of errors, but you can
  modify/delete that as you see fit.
@@ -24,7 +23,7 @@
     const toastStore = getToastStore();
 
     /**
-     * Sign up as a new user, creating a smart wallet along the way.
+     * Sign up as a new user.
      */
     async function signup() {
         console.log('signing up');
@@ -40,7 +39,7 @@
     }
 
     /**
-     * Log in as an existing user, connecting to a pre-existing smart wallet.
+     * Log in as an existing user.
      */
     async function login() {
         console.log('logging in');
