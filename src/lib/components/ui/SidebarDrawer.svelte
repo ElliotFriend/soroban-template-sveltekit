@@ -6,36 +6,50 @@
 -->
 
 <script lang="ts">
-    import { getDrawerStore, Drawer } from '@skeletonlabs/skeleton';
-    const drawerStore = getDrawerStore();
+    // const drawerStore = getDrawerStore();
+    import { Modal } from '@skeletonlabs/skeleton-svelte';
+    let drawerState = $state(false);
 
     // We import the `menuItems` array that is exported from the `<script
     // module>` part of the Header component. This way, we can have the same
     // menu items on large and small screens without the need to re-define them.
     import { menuItems } from '$lib/components/ui/Header.svelte';
+    import Menu from 'lucide-svelte/icons/menu';
 
     // A very simple function to close the expanded drawer menu when a button in
     // the menu is clicked.
-    function onClickSidebarItem(): void {
-        drawerStore.close();
+    function drawerClose(): void {
+        drawerState = false;
     }
 </script>
 
-<Drawer>
-    <div class="p-4 space-y-4 overflow-y-auto">
-        <nav class="list-nav">
-            <ul>
-                {#each menuItems as item}
-                    <a
-                        href={item.href}
-                        class="btn variant-soft-surface"
-                        onclick={() => onClickSidebarItem()}
-                    >
-                        <span><item.icon /></span>
-                        <span>{item.name}</span>
-                    </a>
-                {/each}
-            </ul>
+<Modal
+    open={drawerState}
+    onOpenChange={(e) => (drawerState = e.open)}
+    triggerBase="btn-icon preset-tonal"
+    contentBase="bg-surface-900 p-4 space-y-4 shadow-xl w-[480px] h-screen"
+    positionerJustify="justify-start"
+    positionerAlign=""
+    positionerPadding=""
+    transitionsPositionerIn={{ x: -480, duration: 200 }}
+    transitionsPositionerOut={{ x: -480, duration: 200 }}
+>
+    {#snippet trigger()}
+        <Menu />
+    {/snippet}
+    {#snippet content()}
+        <nav class="flex flex-col gap-2">
+            {#each menuItems as item}
+                {@const Icon = item.icon}
+                <a
+                    href={item.href}
+                    class="btn preset-tonal-surface"
+                    onclick={() => drawerClose()}
+                >
+                    <span><Icon /></span>
+                    <span>{item.name}</span>
+                </a>
+            {/each}
         </nav>
-    </div>
-</Drawer>
+    {/snippet}
+</Modal>
