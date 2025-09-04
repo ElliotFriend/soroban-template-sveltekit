@@ -19,7 +19,7 @@
 <script lang="ts">
     // We're using toasts to display errors to the user. We're not doing much
     // error _handling_, though. So, use whatever techniques you see fit.
-    import { toaster } from "$lib/toaster";
+    import { toaster } from '$lib/toaster';
 
     /**
      * Sign up as a new user.

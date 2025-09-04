@@ -35,7 +35,7 @@ function exe(command) {
  * Generates a new keypair, and funds it if we're not using Mainnet.
  */
 function fundAll() {
-    exe(`stellar keys generate --overwrite --fund ${process.env.STELLAR_ACCOUNT}`);
+    exe(`stellar keys generate ${process.env.STELLAR_ACCOUNT} | true`);
     if (
         process.env.STELLAR_NETWORK_PASSPHRASE !== 'Public Global Stellar Network ; September 2015'
     ) {
@@ -58,8 +58,8 @@ function removeFiles(pattern) {
  * Removes old contract builds, and re-builds smart contracts.
  */
 function buildAll() {
-    removeFiles(`${dirname}/target/wasm32-unknown-unknown/release/*.wasm`);
-    removeFiles(`${dirname}/target/wasm32-unknown-unknown/release/*.d`);
+    removeFiles(`${dirname}/target/wasm32v1-none/release/*.wasm`);
+    removeFiles(`${dirname}/target/wasm32v1-none/release/*.d`);
     exe(`stellar contract build`);
 }
 
@@ -159,10 +159,10 @@ function importContract({ alias }) {
 
     // the required imports/exports for the library
     const importContent =
-        `import * as Client from '${alias}';\n` +
+        `import { Client, networks } from '${alias}';\n` +
         `import { PUBLIC_STELLAR_RPC_URL } from '$env/static/public';\n\n` +
         `export default new Client.Client({\n` +
-        `    ...Client.networks.${process.env.STELLAR_NETWORK},\n` +
+        `    ...networks.${process.env.STELLAR_NETWORK},\n` +
         `    rpcUrl: PUBLIC_STELLAR_RPC_URL,\n` +
         `});\n`;
 
