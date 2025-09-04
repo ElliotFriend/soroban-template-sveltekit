@@ -161,7 +161,7 @@ function importContract({ alias }) {
     const importContent =
         `import { Client, networks } from '${alias}';\n` +
         `import { PUBLIC_STELLAR_RPC_URL } from '$env/static/public';\n\n` +
-        `export default new Client.Client({\n` +
+        `export default new Client({\n` +
         `    ...networks.${process.env.STELLAR_NETWORK},\n` +
         `    rpcUrl: PUBLIC_STELLAR_RPC_URL,\n` +
         `});\n`;
